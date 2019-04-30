@@ -1,0 +1,40 @@
+{
+  "builders":
+  [
+    {
+      "type": "qemu",
+      "iso_url": "http://cdimage.ubuntu.com/lubuntu/releases/18.04/release/lubuntu-18.04-alternate-amd64.iso",
+      "iso_checksum": "aaa52d2c501a689efeca1ebb3a7fdb2fa9e1c215c40f4a9fe7ea110bc3509670",
+      "iso_checksum_type": "sha256",
+      "output_directory": "output_example_test",
+      "shutdown_command": "echo 'example' | sudo -S shutdown -P now",
+      "disk_size": 5000,
+      "format": "qcow2",
+      "accelerator": "kvm",
+      "http_directory": "http",
+      "ssh_username": "example",
+      "ssh_password": "example",
+      "ssh_timeout": "30m",
+      "vm_name": "example",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_wait": "10s",
+      "boot_command": [
+        "<esc><esc><enter><wait>",
+        "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+        "fb=false debconf/frontend=noninteractive ",
+        "hostname=example ",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
+        "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "initrd=/install/initrd.gz -- <enter>"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["echo Success!"]
+    }
+  ]
+}
